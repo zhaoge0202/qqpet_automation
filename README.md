@@ -1,4 +1,4 @@
-# QQ 宠物管家 (WorkBuddy)
+# QQ 宠物管家
 
 QQ 宠物（怀旧服 v1.2.4）的逆向分析与桌面移植项目（macOS / Windows / Linux），附带 OpenClaw Skill 实现宠物自动管理。
 
@@ -15,19 +15,11 @@ QQ 宠物（怀旧服 v1.2.4）的逆向分析与桌面移植项目（macOS / Wi
 
 <img width="320" height="334" alt="image" src="https://github.com/user-attachments/assets/457cf203-b00f-4108-a6f8-cf44d75fe315" />
 
-## 演示视频
-
-<a href="https://www.bilibili.com/video/BV1uS9DB8EB3/" target="_blank">
-  <img width="480" alt="全网独家，我复活了QQ宠物！（点击跳转 B 站观看）" src="https://i2.hdslb.com/bfs/archive/414aaeae10455c7d4cd7b3ecfd7d36e47dbeb00e.jpg">
-</a>
-
-> 点击封面跳转 B 站观看 · 作者：[是我_是我_就是我](https://www.bilibili.com/video/BV1uS9DB8EB3/)
-
 ## 快速开始
 
 ### 1. 启动宠物
 
-从 [Releases](https://github.com/xuemian168/qqpet_automation/releases) 下载对应平台的安装包：
+从 [Releases](https://github.com/zhaoge0202/qqpet_automation/releases) 下载对应平台的安装包：
 
 | 平台 | 文件 | 说明 |
 |------|------|------|
@@ -148,7 +140,7 @@ pip install -r requirements.txt
 .venv/bin/python -m src.qq_pet.cli raw          # 查看原始数据（调试）
 ```
 
-## Agnet Skill
+## Agent Skill
 
 <img width="280" alt="QQ宠物" src="https://github.com/user-attachments/assets/7fa61a7a-b23f-483f-b071-d297dc393417" />
 
@@ -240,7 +232,7 @@ cp -r skills/qq-pet ~/.openclaw/skills/
 ## 项目结构
 
 ```
-workbuddy/
+qqpet_automation/
 ├── qq-pet-macos/                 # macOS 移植版 Electron 应用
 │   ├── main.js                   # 入口（已清理遥测）
 │   ├── package.json
@@ -279,12 +271,13 @@ workbuddy/
 
 ### 启用步骤
 
-1. 申请 DeepSeek API Key：访问 [platform.deepseek.com/api_keys](https://platform.deepseek.com/api_keys)
+1. 准备 API Key：可使用 DeepSeek 官方（访问 [platform.deepseek.com/api_keys](https://platform.deepseek.com/api_keys)），或任何兼容 OpenAI `chat/completions` 格式的中转 / 本地端点（OneAPI / Ollama / vLLM 等）
 2. 启动桌宠 → 右键托盘图标 → **设置** → 切到 **「AI 对话」** 标签
-3. 配置 3 项：
+3. 配置说明：
    - **启用 AI 对话**：开关
-   - **DeepSeek API Key**：粘贴 `sk-...`，回车保存（密码态显示）
-   - **模型名称**：留空 = `deepseek-chat`（V3，便宜又快），可改为 `deepseek-reasoner`（R1 思考模型）或任何 [DeepSeek 官方](https://api-docs.deepseek.com/zh-cn/quick_start/pricing/) 支持的模型 ID
+   - **API 端点 (Base URL)**：留空默认 `https://api.deepseek.com/v1`；支持自定义地址（如 `http://localhost:11434/v1` 或自建反代网关）
+   - **API Key**：粘贴 `sk-...`，回车保存（密码态显示；本地免认证端点可留空或填任意字符）
+   - **模型名称**：留空 = `deepseek-chat`（V3，便宜又快），可指定 `deepseek-reasoner`（R1 思考模型）或自定义端点上的任意模型名
 4. 点击 **「测试连接」** 按钮 → 宠物气泡显示「AI 连接成功！」即生效
 
 ### 模型对比建议
@@ -344,6 +337,6 @@ thresholds:
 - 未经相关权利人授权，将 `QQ宠物` 相关内容用于收费分发、商业运营、广告导流或其他营利性用途，通常具有较高的商标侵权、著作权侵权及不正当竞争风险。
 - 项目按 "原样" 提供，**不附带任何明示或暗示的担保**；使用风险由使用者自行承担。
 - 原腾讯官方服务器早已停服，本项目仅在本地运行，**不会、也无法连接到任何腾讯服务器**。
-- 若腾讯控股有限公司或其授权代理人认为本项目侵犯其合法权益，请通过 GitHub Issue 与作者联系，作者承诺 **第一时间下架本仓库及构建产物，绝不抗辩**。
+- 若腾讯控股有限公司或其授权代理人认为本项目侵犯其合法权益，请通过 GitHub Issue 联系，承诺 **第一时间下架本仓库及构建产物，绝不抗辩**。
 
 完整声明详见 [NOTICE.md](./NOTICE.md) 文件。如希望参与改进，请阅读 [CONTRIBUTING.md](./CONTRIBUTING.md)。

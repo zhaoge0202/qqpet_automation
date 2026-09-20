@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢反馈。**安全漏洞请勿走这里**——请用 [Security Advisory](https://github.com/xuemian168/qqpet_automation/security/advisories/new)。
+        感谢反馈。**安全漏洞请勿走这里**——请用 [Security Advisory](https://github.com/zhaoge0202/qqpet_automation/security/advisories/new)。
 
   - type: textarea
     id: summary

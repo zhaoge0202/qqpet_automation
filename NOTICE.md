@@ -1,6 +1,6 @@
 # 第三方权利声明与免责声明
 
-**WorkBuddy / QQ 宠物管家 — Third-Party Notices & Disclaimer**
+**QQ 宠物管家 — Third-Party Notices & Disclaimer**
 
 > 本项目是一个对腾讯 QQ 宠物（怀旧服 v1.2.4）的 **个人逆向研究、桌面移植与怀旧存档** 项目，**不属于腾讯官方产品**，与腾讯控股有限公司及其关联方 **没有任何关联、隶属、授权或合作关系**。
 >
@@ -42,7 +42,7 @@
 
 - 通信协议逆向分析报告的研究底稿，以及后续可能公开的脱敏版本（当前完整 `新版QQ宠物1.2.4-逆向通信分析报告.{tex,pdf}` 未随公开仓库分发）
 - Python 管理工具与命令行（`src/qq_pet/`、`tests/`、`pyproject.toml`、`requirements.txt`、`config.yaml`）
-- macOS / Windows / Linux 移植所做的代码修改（`qq-pet-macos/main.js` 等由本项目作者编写或修改的部分）
+- macOS / Windows / Linux 移植所做的代码修改（`qq-pet-macos/main.js` 等由本项目编写或修改的部分）
 - 构建脚本、CI 工作流（`.github/workflows/`）与项目元数据
 - OpenClaw Skill 定义（`skills/qq-pet/`）
 - `README.md`、`LICENSE`、`NOTICE.md`、`CONTRIBUTING.md` 等项目文档
@@ -88,10 +88,10 @@ Electron 完整许可文本随构建产物分发，参见 `qq_pet_app/LICENSE.el
 
 ### 5.4 权利人主张时立即下架
 
-若 **腾讯控股有限公司** 或其授权代理人认为本项目侵犯其合法权益，请通过 GitHub Issue 或仓库主页公示的联系方式与作者联系；作者承诺在收到合理通知后 **第一时间下架本仓库及相关构建产物**，绝不抗辩。
+若 **腾讯控股有限公司** 或其授权代理人认为本项目侵犯其合法权益，请通过 GitHub Issue 联系；承诺在收到合理通知后 **第一时间下架本仓库及相关构建产物**，绝不抗辩。
 
-> If Tencent Holdings Ltd. or any rightful owner believes this project infringes their lawful rights, the author commits to taking down this repository and all related build artifacts promptly upon receipt of a reasonable notice via GitHub Issues or the contact channel listed on the repository homepage, without dispute.
+> If Tencent Holdings Ltd. or any rightful owner believes this project infringes their lawful rights, please contact via GitHub Issues; the maintainers commit to taking down this repository and all related build artifacts promptly upon receipt of a reasonable notice, without dispute.
 
 ### 5.5 用户行为
 
-使用者应自行评估本地法律法规要求，遵守与腾讯相关产品（如 QQ）的用户协议；因使用本项目产生的法律责任由使用者自行承担，与作者无关。
+使用者应自行评估本地法律法规要求，遵守与腾讯相关产品（如 QQ）的用户协议；因使用本项目产生的法律责任由使用者自行承担，与本项目无关。

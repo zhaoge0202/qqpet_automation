@@ -145,7 +145,7 @@ class FocusGuard {
     const useLLM =
       typeof llmService !== "undefined" &&
       getSys("llmEnabled") &&
-      getSys("llmApiKey");
+      (getSys("llmApiKey") || getSys("llmBaseUrl"));
 
     const showFallback = () => {
       const txt = FALLBACK_TEXT[type] || "主人~";

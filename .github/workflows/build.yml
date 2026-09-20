@@ -26,6 +26,7 @@ jobs:
         run: |
           cd qq-pet-macos
           gh release download resources-v1 \
+            --repo xuemian168/qqpet_automation \
             --pattern 'qq-pet-resources.tar.gz' \
             --dir /tmp
           tar xzf /tmp/qq-pet-resources.tar.gz
@@ -80,6 +81,7 @@ jobs:
         run: |
           cd qq-pet-macos
           gh release download resources-v1 `
+            --repo xuemian168/qqpet_automation `
             --pattern 'qq-pet-resources.tar.gz' `
             --dir $env:TEMP
           tar xzf "$env:TEMP\qq-pet-resources.tar.gz"
@@ -149,6 +151,7 @@ jobs:
         run: |
           cd qq-pet-macos
           gh release download resources-v1 \
+            --repo xuemian168/qqpet_automation \
             --pattern 'qq-pet-resources.tar.gz' \
             --dir /tmp
           tar xzf /tmp/qq-pet-resources.tar.gz

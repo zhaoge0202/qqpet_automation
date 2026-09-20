@@ -1,10 +1,47 @@
 const _require = eval("require");
 const https = _require("https");
+const http = _require("http");
+const { URL } = _require("url");
 
-const DEEPSEEK_HOST = "api.deepseek.com";
+const DEFAULT_BASE_URL = "https://api.deepseek.com/v1";
 const DEFAULT_MODEL = "deepseek-chat";
 const MAX_QUEUE = 3;
 const TIMEOUT_MS = 8000;
+
+function parseEndpoint(rawUrl) {
+  let u = (rawUrl || "").trim();
+  if (!u) {
+    u = DEFAULT_BASE_URL;
+  }
+  if (!/^https?:\/\//i.test(u)) {
+    u = (u.startsWith("localhost") || u.startsWith("127.0.0.1"))
+      ? "http://" + u
+      : "https://" + u;
+  }
+  let parsed;
+  try {
+    parsed = new URL(u);
+  } catch (e) {
+    parsed = new URL(DEFAULT_BASE_URL);
+  }
+
+  let pathname = parsed.pathname.replace(/\/+$/, "");
+  if (pathname.endsWith("/chat/completions")) {
+    // 已经包含完整路径
+  } else if (!pathname || pathname === "/") {
+    pathname = "/v1/chat/completions";
+  } else {
+    pathname = pathname + "/chat/completions";
+  }
+
+  const isHttps = parsed.protocol === "https:";
+  return {
+    isHttps,
+    hostname: parsed.hostname,
+    port: parsed.port ? Number(parsed.port) : (isHttps ? 443 : 80),
+    path: pathname + (parsed.search || ""),
+  };
+}
 
 const SYSTEM_PROMPT = (petInfo) => {
   const info = petInfo?.info || {};
@@ -59,6 +96,10 @@ const DYNAMIC_PROMPTS = {
 
 function callDeepSeek(apiKey, messages) {
   return new Promise((resolve, reject) => {
+    const rawBaseUrl =
+      typeof getSys === "function" ? getSys("llmBaseUrl") : "";
+    const endpoint = parseEndpoint(rawBaseUrl);
+
     const model =
       (typeof getSys === "function" && getSys("llmModel")) || DEFAULT_MODEL;
     const body = JSON.stringify({
@@ -67,16 +108,23 @@ function callDeepSeek(apiKey, messages) {
       max_tokens: 80,
       temperature: 0.9,
     });
-    const req = https.request(
+
+    const headers = {
+      "Content-Type": "application/json",
+      "Content-Length": Buffer.byteLength(body),
+    };
+    if (apiKey) {
+      headers["Authorization"] = `Bearer ${apiKey}`;
+    }
+
+    const client = endpoint.isHttps ? https : http;
+    const req = client.request(
       {
-        hostname: DEEPSEEK_HOST,
-        path: "/v1/chat/completions",
+        hostname: endpoint.hostname,
+        port: endpoint.port,
+        path: endpoint.path,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Length": Buffer.byteLength(body),
-        },
+        headers,
       },
       (res) => {
         let data = "";
@@ -84,9 +132,15 @@ function callDeepSeek(apiKey, messages) {
         res.on("end", () => {
           try {
             const parsed = JSON.parse(data);
-            if (parsed.error) return reject(new Error(parsed.error.message));
+            if (parsed.error) return reject(new Error(parsed.error.message || JSON.stringify(parsed.error)));
             const content = parsed.choices?.[0]?.message?.content || "";
-            const cleaned = content.replace(/```json|```/g, "").trim();
+            // 去除 reasoning/think 标签与 markdown 代码块包裹
+            let cleaned = content.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+            cleaned = cleaned.replace(/```json|```/g, "").trim();
+            const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+              cleaned = jsonMatch[0];
+            }
             resolve(JSON.parse(cleaned));
           } catch (e) {
             reject(e);
@@ -113,8 +167,10 @@ class LLMService {
   }
 
   prefetch(tolkName, petInfo) {
-    const apiKey = getSys("llmApiKey");
-    if (!apiKey || !getSys("llmEnabled")) return;
+    if (!getSys("llmEnabled")) return;
+    const apiKey = getSys("llmApiKey") || "";
+    const baseUrl = getSys("llmBaseUrl");
+    if (!baseUrl && !apiKey) return;
     if (!this._queues[tolkName]) this._queues[tolkName] = [];
     if (this._queues[tolkName].length >= MAX_QUEUE || this._pending[tolkName]) return;
     this._pending[tolkName] = true;
@@ -142,8 +198,10 @@ class LLMService {
   }
 
   generateOnce(promptType, contextData, petInfo) {
-    const apiKey = getSys("llmApiKey");
-    if (!apiKey || !getSys("llmEnabled")) return Promise.resolve(null);
+    if (!getSys("llmEnabled")) return Promise.resolve(null);
+    const apiKey = getSys("llmApiKey") || "";
+    const baseUrl = getSys("llmBaseUrl");
+    if (!baseUrl && !apiKey) return Promise.resolve(null);
     const builder = DYNAMIC_PROMPTS[promptType];
     const userPrompt = builder
       ? builder(contextData)

@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        在动手写之前，先看看 [CONTRIBUTING.md](https://github.com/xuemian168/qqpet_automation/blob/main/CONTRIBUTING.md) 里的"红线"——
+        在动手写之前，先看看 [CONTRIBUTING.md](https://github.com/zhaoge0202/qqpet_automation/blob/main/CONTRIBUTING.md) 里的"红线"——
         商业化功能、绕过腾讯运营业务、引入腾讯专有素材的提议会被直接关闭。
 
   - type: textarea

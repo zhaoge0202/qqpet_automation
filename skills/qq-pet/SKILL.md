@@ -18,7 +18,7 @@ metadata:
 通过 `exec` 工具执行 CLI：
 
 ```bash
-cd /Users/xuemian/SynologyDrive/research/workbuddy && .venv/bin/python -m src.qq_pet.cli <command>
+.venv/bin/python -m src.qq_pet.cli <command>
 ```
 
 所有命令输出 JSON 格式。
@@ -26,7 +26,7 @@ cd /Users/xuemian/SynologyDrive/research/workbuddy && .venv/bin/python -m src.qq
 ## macOS 启动宠物
 
 ```bash
-cd /Users/xuemian/SynologyDrive/research/workbuddy/qq-pet-macos && npx electron .
+cd qq-pet-macos && npx electron .
 ```
 
 数据文件位置: `~/Library/Application Support/qq-pet-macos/config-macos.json`（明文 JSON，无加密）
