@@ -6,7 +6,7 @@ const { URL } = _require("url");
 const DEFAULT_BASE_URL = "https://api.deepseek.com/v1";
 const DEFAULT_MODEL = "deepseek-chat";
 const MAX_QUEUE = 3;
-const TIMEOUT_MS = 15000;
+const TIMEOUT_MS = 60000;
 
 function parseEndpoint(rawUrl) {
   let u = (rawUrl || "").trim();
@@ -105,8 +105,8 @@ function callDeepSeek(apiKey, messages) {
     const body = JSON.stringify({
       model,
       messages,
-      max_tokens: 80,
-      temperature: 0.9,
+      max_tokens: 2000,
+      temperature: 0.7,
     });
 
     const headers = {
