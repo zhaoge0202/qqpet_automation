@@ -53,6 +53,10 @@ function startDataWatcher() {
       // 以免下一次 watch 事件把这次的"回写"重新当作外部变更处理。
       lastRaw = readFile() || lastRaw;
     }
+
+    if (data && data.sys && typeof global.setSys === "function") {
+      global.setSys({ init: data.sys });
+    }
   };
 
   try {
