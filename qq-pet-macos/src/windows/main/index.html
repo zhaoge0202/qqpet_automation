@@ -3,6 +3,10 @@
   <div id="move" :style="sizeStyle">
     <div class="focusPress phantom"></div>
     <embed id="pet" name="pet" class="pet"> </embed>
+    <div v-if="activeBadge" class="status_badge fcc">
+      <span class="badge_icon">{{ activeBadge.icon }}</span>
+      <span class="badge_text">{{ activeBadge.text }}</span>
+    </div>
   </div>
   <div id="float">
     <transition-group name="myFloat">
