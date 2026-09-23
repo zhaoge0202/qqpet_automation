@@ -105,6 +105,20 @@
               </div>
             </div>
           </div>
+          <div class="childrenIn fC slider modeTabsBlock" v-if="stem.type == 'modeTabs'">
+            <div class="label" cancel>{{stem.label}}：</div>
+            <div class="modeBtnGroup fcb w100">
+              <div
+                v-for="opt in stem.options"
+                :key="opt.value"
+                class="modeBtn focusPress fcc not_drag"
+                :class="[(sysData[stem.value] || 'balanced') == opt.value ? 'activeMode' : '']"
+                @click="sysData[stem.value] = opt.value; setStting(stem)"
+              >
+                {{opt.label}}
+              </div>
+            </div>
+          </div>
           <div class="childrenIn fC slider" v-if="stem.type == 'input'">
             <div class="label" cancel>{{stem.label}}：</div>
             <input
